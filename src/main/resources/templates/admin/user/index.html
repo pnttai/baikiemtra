@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head::head"></head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    <header th:replace="admin/fragments/header::header"></header>
+    <div th:replace="admin/fragments/sidebar::sidebar"></div>
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>Quản lý người dùng</h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li><a href="#">Examples</a></li>
+                <li class="active">User Management</li>
+            </ol>
+        </section>
+        <section class="content">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Danh Sách Người Dùng</h3>
+                    <div><a class="btn btn-success" href="/admin/add-user">Thêm Mới Người Dùng</a></div>
+                </div>
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>ID</th>
+                            <th>Mã Nhân Viên </th>
+                            <th>Tên Người Dùng</th>
+
+                            <th>Giới Tính</th>
+                            <th>Nơi Sinh</th>
+                            <th>Mã Phòng</th>
+                            <th>Lương</th>
+                            <th>Hành Động</th>
+                        </tr>
+                        <tr th:each="users : ${users}">
+                            <td th:text="${users.id}"></td>
+                            <td th:text="${users.maNhanVien}"></td>
+                            <td th:text="${users.username}"></td>
+                            <td>
+                                <img th:src="${users.sex == 'NU' ? '/admin/images/avatar2.png' : '/admin/images/avatar.png'}" alt="Giới tính" width="50" height="50"/>
+                            </td>
+                            <
+                            <td th:text="${users.noiSinh}"></td>
+                            <td th:text="${users.maPhong}"></td>
+                            <td th:text="${users.luong}"></td>
+                            <td>
+                                <a th:href="@{/admin/edit-user/{id}(id=${users.id})}" class="btn btn-success">Edit</a>
+                                <a th:href="@{/admin/delete-user/{id}(id=${users.id})}" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    </table>
+                    <ul class="pagination pagination-sm no-margin pull-right">
+                        <li th:if="${currentPage >1} " ><a th:href="@{'?pageNo='+${currentPage-1}}" ><<</a></li>
+
+                        <li th:each="i:${#numbers.sequence(1,totalPage)}" th:classappend="${currentPage == i ? 'active' : ''}">  <a th:href="@{${keyword !=null && keyword!=''? '?keyword='+keyword+'&':'?' }+'pageNo='+${i}}"  th:text="${i}"></a></li>
+                        <li th:if="${currentPage < totalPage}" ><a th:href="@{'?pageNo='+${currentPage+1}}" >>></a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer th:replace="admin/fragments/footer::footer"></footer>
+</div>
+<div th:replace="admin/fragments/script::script"></div>
+</body>
+</html>
